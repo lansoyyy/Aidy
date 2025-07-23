@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-// Aidy App Color Palette (Educational)
-const primary = Color(0xFF1976D2); // Primary blue
-const accent = Color(0xFF43A047); // Accent green
-const background = Color(0xFFF5F7FA); // Light background
+// Aidy App Color Palette (Notion-style Black & White)
+const primary = Color(0xFF000000); // Black
+const accent = Color(0xFF666666); // Dark Grey Accent
+const background = Color(0xFFFFFFFF); // White background
 const surface = Color(0xFFFFFFFF); // Surface color (white)
-const textLight = Color(0xFF212121); // Primary text (dark grey)
-const textGrey = Color(0xFF757575); // Secondary text (medium grey)
+const textLight = Color(0xFF000000); // Primary text (black)
+const textGrey = Color(0xFF666666); // Secondary text (dark grey)
 const buttonText = Color(0xFFFFFFFF); // Button text color (white)
 
 // Legacy colors (keeping for backward compatibility)
-const secondary = Color(0xFF64B5F6); // Light Blue
-const darkPrimary = Color(0xFF0D47A1); // Dark Blue
-const black = Color(0xFF212121); // Charcoal
+const secondary = Color(0xFF888888); // Medium Grey
+const darkPrimary = Color(0xFF222222); // Almost Black
+const black = Color(0xFF000000); // Black
 const white = Color(0xFFFFFFFF); // White
-const grey = Color(0xFFBDBDBD); // Light Grey
+const grey = Color(0xFFCCCCCC); // Light Grey
 
 TimeOfDay parseTime(String timeString) {
   List<String> parts = timeString.split(':');

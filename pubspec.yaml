@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   intl:
   fluttertoast:
+  share_plus: ^7.2.1
+  pdf: ^3.10.4
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
