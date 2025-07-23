@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
@@ -154,18 +155,18 @@ class _SummaryScreenState extends State<SummaryScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+          icon: const Icon(FontAwesomeIcons.arrowLeft, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(
           'Summary',
           style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            letterSpacing: -1,
           ),
         ),
-        centerTitle: false,
         actions: [
           if (fromHome)
             IconButton(

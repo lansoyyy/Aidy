@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 import '../widgets/text_widget.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,23 +33,30 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: background,
+        backgroundColor: Colors.white,
         elevation: 0,
-        title: Row(
-          children: [
-            Image.asset('assets/images/logo.png', height: 32),
-            const SizedBox(width: 12),
-            TextWidget(
-              text: 'Aidy',
-              fontSize: 24,
-              isBold: true,
-              color: primary,
-            ),
-          ],
+        automaticallyImplyLeading: false,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 12),
+          child: Icon(
+            FontAwesomeIcons.robot,
+            color: Colors.black,
+            size: 20,
+          ),
         ),
+        title: const Text(
+          'Aidy',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            letterSpacing: -1,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.black54),
+            icon: const Icon(Icons.search, color: Colors.black),
             onPressed: () => _showSearch(context, notes),
             tooltip: 'Search notes',
           ),
@@ -82,11 +90,12 @@ class HomeScreen extends StatelessWidget {
                       separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final note = notes[index];
-                        return Card(
-                          color: surface,
-                          elevation: 0.5,
-                          shape: RoundedRectangleBorder(
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.black12, width: 1),
                           ),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(12),
@@ -98,12 +107,16 @@ class HomeScreen extends StatelessWidget {
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
+                                  horizontal: 18, vertical: 16),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.sticky_note_2_outlined,
-                                      color: accent, size: 28),
-                                  const SizedBox(width: 12),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 2),
+                                    child: Icon(Icons.sticky_note_2_outlined,
+                                        color: accent, size: 26),
+                                  ),
+                                  const SizedBox(width: 14),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -115,18 +128,27 @@ class HomeScreen extends StatelessWidget {
                                           isBold: true,
                                           color: primary,
                                         ),
-                                        const SizedBox(height: 4),
+                                        const SizedBox(height: 6),
                                         TextWidget(
                                           text: note['summary']!,
                                           fontSize: 14,
                                           color: textGrey,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'Apr 27, 2024 · 10:30 AM', // Placeholder
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
                                   const SizedBox(width: 8),
                                   Icon(Icons.chevron_right,
-                                      color: grey, size: 24),
+                                      color: grey, size: 22),
                                 ],
                               ),
                             ),
@@ -158,7 +180,7 @@ class NotesSearchDelegate extends SearchDelegate<String> {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: const Icon(Icons.clear),
+        icon: const Icon(FontAwesomeIcons.xmark),
         onPressed: () {
           query = '';
         },
@@ -169,7 +191,7 @@ class NotesSearchDelegate extends SearchDelegate<String> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back),
+      icon: const Icon(FontAwesomeIcons.arrowLeft),
       onPressed: () => close(context, ''),
     );
   }
