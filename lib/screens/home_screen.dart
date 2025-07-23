@@ -3,8 +3,39 @@ import '../utils/colors.dart';
 import '../widgets/text_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _fabController;
+  late Animation<double> _fabScale;
+  late Animation<double> _fabRotation;
+
+  @override
+  void initState() {
+    super.initState();
+    _fabController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+    _fabScale = Tween<double>(begin: 1.0, end: 1.12).animate(
+      CurvedAnimation(parent: _fabController, curve: Curves.easeInOut),
+    );
+    _fabRotation = Tween<double>(begin: 0.0, end: 0.08).animate(
+      CurvedAnimation(parent: _fabController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _fabController.dispose();
+    super.dispose();
+  }
 
   void _showSearch(BuildContext context, List<Map<String, String>> notes) {
     showSearch(
@@ -160,13 +191,27 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primary,
-        onPressed: () {
-          Navigator.of(context).pushNamed('/listen');
+      floatingActionButton: AnimatedBuilder(
+        animation: _fabController,
+        builder: (context, child) {
+          return Transform.rotate(
+            angle: _fabRotation.value,
+            child: Transform.scale(
+              scale: _fabScale.value,
+              child: FloatingActionButton(
+                backgroundColor: primary,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/listen');
+                },
+                child: const Icon(FontAwesomeIcons.plus,
+                    color: Colors.white, size: 32),
+                tooltip: 'Add new session',
+                shape: const CircleBorder(),
+                elevation: 6,
+              ),
+            ),
+          );
         },
-        child: const Icon(Icons.add, color: Colors.white, size: 32),
-        tooltip: 'Add new session',
       ),
     );
   }
