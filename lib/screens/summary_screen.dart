@@ -319,6 +319,18 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   cursorColor: Colors.black,
                 ),
               ),
+              const SizedBox(height: 16),
+              const Divider(height: 32, thickness: 1, color: Colors.black12),
+              const SizedBox(height: 8),
+              const Text(
+                'Ask Aidy about this summary',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+              const SizedBox(height: 10),
+              _AidyQASection(summaryGetter: () => _controller.text),
             ],
           ),
         ),
@@ -354,6 +366,106 @@ class _ActionChip extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AidyQASection extends StatefulWidget {
+  final String Function() summaryGetter;
+  const _AidyQASection({required this.summaryGetter});
+
+  @override
+  State<_AidyQASection> createState() => _AidyQASectionState();
+}
+
+class _AidyQASectionState extends State<_AidyQASection> {
+  final TextEditingController _questionController = TextEditingController();
+  String? _answer;
+  bool _loading = false;
+
+  void _askAidy() async {
+    final question = _questionController.text.trim();
+    if (question.isEmpty) return;
+    setState(() {
+      _loading = true;
+      _answer = null;
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _answer =
+          'This is a sample answer based on your summary: "${widget.summaryGetter().split('\n').first}".\n\n(Replace this with real AI integration.)';
+      _loading = false;
+
+      _questionController.clear();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _questionController,
+                style: const TextStyle(fontSize: 15, color: Colors.black),
+                decoration: const InputDecoration(
+                  hintText: 'Ask a question about this summary...',
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black12)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  isDense: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                ),
+                cursorColor: Colors.black,
+                minLines: 1,
+                maxLines: 2,
+              ),
+            ),
+            const SizedBox(width: 8),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.black),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: _loading ? null : _askAidy,
+              child: _loading
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: Colors.white))
+                  : const Text('Ask',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+            ),
+          ],
+        ),
+        if (_answer != null) ...[
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: Text(
+              _answer!,
+              style: const TextStyle(fontSize: 15, color: Colors.black87),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
